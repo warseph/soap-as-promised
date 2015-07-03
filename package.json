@@ -1,0 +1,28 @@
+{
+  "name": "soap-as-promised",
+  "version": "1.0.0",
+  "description": "Convert all soap methods to promises. Inspired by soap-q.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/warseph/soap-as-promised.git"
+  },
+  "keywords": [
+    "soap",
+    "promise"
+  ],
+  "author": "Ezequiel Rabinovich",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/warseph/soap-as-promised/issues"
+  },
+  "homepage": "https://github.com/warseph/soap-as-promised",
+  "dependencies": {
+    "coffee-script": "^1.9.3",
+    "q": "^1.4.1",
+    "soap": "^0.9.1"
+  }
+}
