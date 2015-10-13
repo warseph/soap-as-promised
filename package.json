@@ -1,6 +1,6 @@
 {
   "name": "soap-as-promised",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Convert all soap methods to promises. Inspired by soap-q.",
   "main": "index.js",
   "scripts": {
