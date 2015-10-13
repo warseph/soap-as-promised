@@ -14,6 +14,6 @@ promisify = (client) ->
       client[property] = Q.nbind client[property], client
   client
 
-module.exports = ->
+module.exports =
   createClient: (wsdl) ->
     Q.ninvoke(soap, 'createClient', wsdl).then (client) -> promisify client
