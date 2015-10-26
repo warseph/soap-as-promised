@@ -2,15 +2,6 @@
 
 const soap = require('soap');
 
-const functions = [
-  '_initializeServices', '_defineService', '_definePort',
-  '_defineMethod', '_invoke', 'describe', 'setSecurity',
-  'setSOAPAction', 'setEndpoint', 'addSoapHeader'
-];
-
-const isDefault = (p) => functions.indexOf(p) === -1;
-const isFunction = (val) => 'function' === typeof val;
-
 function cb2promise(fn, object) {
   return function () {
     const args = [].slice.call(arguments, 0);
@@ -22,10 +13,18 @@ function cb2promise(fn, object) {
           resolve(value);
         }
       }
-      args.push(nodeCallback);
+      args.splice(1, 0, nodeCallback);
       fn.apply(object, args);
     });
   };
+}
+
+function objForEach(obj, fn) {
+  for (let prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      fn(prop, obj[prop]);
+    }
+  }
 }
 
 function promisify(client) {
@@ -34,11 +33,17 @@ function promisify(client) {
   }
 
   client._promisified = true;
-  for (let property in client) {
-    if (isFunction(client[property]) && isDefault(client[property])) {
-      client[property] = cb2promise(client[property], client);
-    }
-  }
+  const services = client.describe();
+
+  objForEach(services, (service, ports) => {
+    objForEach(ports, (port, methods) => {
+      objForEach(methods, (method, fn) => {
+        const fnPromised = cb2promise(fn);
+        client[service][port][method] = fnPromised;
+        client[method] = fnPromised;
+      });
+    });
+  });
   return client;
 }
 
