@@ -37,7 +37,8 @@ function promisify(client) {
 
   objForEach(services, (service, ports) => {
     objForEach(ports, (port, methods) => {
-      objForEach(methods, (method, fn) => {
+      objForEach(methods, (method) => {
+        const fn = client[service][port][method].bind(client[service][port]);
         const fnPromised = cb2promise(fn);
         client[service][port][method] = fnPromised;
         client[method] = fnPromised;
