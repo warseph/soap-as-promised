@@ -3,20 +3,26 @@
 const soap = require('soap');
 
 function cb2promise(fn, object) {
-  return function () {
+  if (fn._promisified === true) {
+    return fn;
+  }
+  const promisifiedFn =  function () {
     const args = [].slice.call(arguments, 0);
     return new Promise((resolve, reject) => {
-      function nodeCallback(err, value) {
+      function nodeCallback(err, result, raw) {
         if (err) {
           reject(err);
         } else {
-          resolve(value);
+          result._rawResponse = raw;
+          resolve(result);
         }
       }
       args.splice(1, 0, nodeCallback);
       fn.apply(object, args);
     });
   };
+  promisifiedFn._promisified = true;
+  return promisifiedFn;
 }
 
 function objForEach(obj, fn) {
