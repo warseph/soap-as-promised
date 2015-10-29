@@ -2,7 +2,7 @@
 
 const soap = require('soap');
 
-function cb2promise(fn, object) {
+function cb2promise(fn, bind, position) {
   if (fn._promisified === true) {
     return fn;
   }
@@ -17,8 +17,12 @@ function cb2promise(fn, object) {
           resolve(result);
         }
       }
-      args.splice(1, 0, nodeCallback);
-      fn.apply(object, args);
+      if (position !== undefined) {
+        args.splice(position, 0, nodeCallback);
+      } else {
+        args.push(nodeCallback);
+      }
+      fn.apply(bind, args);
     });
   };
   promisifiedFn._promisified = true;
@@ -45,7 +49,7 @@ function promisify(client) {
     objForEach(ports, (port, methods) => {
       objForEach(methods, (method) => {
         const fn = client[service][port][method].bind(client[service][port]);
-        const fnPromised = cb2promise(fn);
+        const fnPromised = cb2promise(fn, client, 1);
         client[service][port][method] = fnPromised;
         client[method] = fnPromised;
       });
@@ -56,8 +60,9 @@ function promisify(client) {
 const originalCreateClient = soap.createClient;
 
 module.exports = Object.assign(soap, {
-  createClient: function (wsdl) {
+  createClient: function () {
+    const args = [].slice.call(arguments, 0);
     const createClient = cb2promise(originalCreateClient, soap);
-    return createClient(wsdl).then((client) => promisify(client));
+    return createClient.apply(null, args).then((client) => promisify(client));
   }
 });
