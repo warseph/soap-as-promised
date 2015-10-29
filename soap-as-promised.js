@@ -53,10 +53,11 @@ function promisify(client) {
   });
   return client;
 }
+const originalCreateClient = soap.createClient;
 
 module.exports = Object.assign(soap, {
   createClient: function (wsdl) {
-    const createClient = cb2promise(soap.createClient, soap);
+    const createClient = cb2promise(originalCreateClient, soap);
     return createClient(wsdl).then((client) => promisify(client));
   }
 });
