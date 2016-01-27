@@ -13,7 +13,7 @@ function cb2promise(fn, bind, position) {
         if (err) {
           reject(err);
         } else {
-          result._rawResponse = raw;
+          if (result) result._rawResponse = raw;
           resolve(result);
         }
       }
