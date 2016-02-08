@@ -11,6 +11,6 @@ const soap = require('soap-as-promised');
 
 soap.createClient('http://example.org/wsdl')
     .then((client) => client.myAwesomeSoapMethod({param: true}))
-    .then((result) => console.log("The result was: #{result}"))
-    .catch((error) => console.error("There was an error! #{error}"));
+    .then((result) => console.log(`The result was: ${result}`))
+    .catch((error) => console.error(`There was an error! ${error}`));
 ```
