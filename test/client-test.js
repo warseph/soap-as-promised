@@ -38,14 +38,14 @@ describe('Promisified client', function() {
   });
 
   it('should return the promised result', function () {
-    const response = soap.createClient(WSDL, BASE_URL)
+    const response = soap.createClient(WSDL, {}, BASE_URL)
       .then(c => c.MyOperation({}))
       .then(r => r.Response);
     return expect(response).to.eventually.eq('Test response');
   });
 
   it('should return the raw result', function () {
-    const rawResponse = soap.createClient(WSDL, BASE_URL)
+    const rawResponse = soap.createClient(WSDL, {}, BASE_URL)
       .then(c => c.MyOperation({}))
       .then(r => r._rawResponse.trim());
 
