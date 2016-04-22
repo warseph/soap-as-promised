@@ -4,7 +4,7 @@
   "description": "Convert all soap methods to promises. Inspired by soap-q.",
   "main": "soap-as-promised.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/mocha"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,10 @@
   "homepage": "https://github.com/warseph/soap-as-promised",
   "dependencies": {
     "soap": "^0.14.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "mocha": "^2.4.5"
   }
 }
