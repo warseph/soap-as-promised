@@ -62,7 +62,7 @@ const originalCreateClient = soap.createClient;
 module.exports = Object.assign(soap, {
   createClient: function () {
     const args = [].slice.call(arguments, 0);
-    const createClient = cb2promise(originalCreateClient, soap);
+    const createClient = cb2promise(originalCreateClient, soap, 1);
     return createClient.apply(null, args).then((client) => promisify(client));
   }
 });
