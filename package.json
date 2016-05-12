@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/warseph/soap-as-promised",
   "dependencies": {
-    "soap": "^0.14.0"
+    "soap": "^0.15.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
