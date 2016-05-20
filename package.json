@@ -1,6 +1,6 @@
 {
   "name": "soap-as-promised",
-  "version": "1.14.2",
+  "version": "1.15.0",
   "description": "Convert all soap methods to promises. Inspired by soap-q.",
   "main": "soap-as-promised.js",
   "scripts": {
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/warseph/soap-as-promised",
   "dependencies": {
-    "soap": "^0.14.0"
+    "soap": "^0.15.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
