@@ -15,3 +15,10 @@ soap.createClient('http://example.org/wsdl')
     .then((result) => console.log(`The result was: ${result}`))
     .catch((error) => console.error(`There was an error! ${error}`));
 ```
+
+## Important!
+
+There are two things that behave different from the original soap client:
+
+* Null responses return an object with like this `{return: null, _rawResponse: "<SOAP RETURNED BY THE SERVICE>"}`
+* When specifying endpoint as an extra parameter you need to pass the options parameter (at least `null` or `{}`)
