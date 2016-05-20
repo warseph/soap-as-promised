@@ -2,13 +2,13 @@
 <wsdl:definitions name="MyService" targetNamespace="http://www.example.com/v1" xmlns="http://www.example.com/v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
     <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.example.com/v1" xmlns="http://www.example.com/v1">
-		<xs:element name="Request">
-		</xs:element>
-		<xs:element name="Response">
-		</xs:element>
+  		<xs:element name="Request">
+  		</xs:element>
+  		<xs:element name="Response">
+  		</xs:element>
     </xs:schema>
-    </wsdl:types>
-    <wsdl:message name="InputMessage">
+  </wsdl:types>
+  <wsdl:message name="InputMessage">
     <wsdl:part name="parameter" element="Request">
     </wsdl:part>
   </wsdl:message>
@@ -16,6 +16,7 @@
     <wsdl:part name="parameter" element="Response">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="EmptyOutputMessage" />
 
   <wsdl:portType name="MyServicePortType">
     <wsdl:operation name="MyOperation">
@@ -23,6 +24,10 @@
     </wsdl:input>
       <wsdl:output message="OutputMessage">
     </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MyEmptyOperation">
+      <wsdl:input message="InputMessage">
+    </wsdl:input>
     </wsdl:operation>
   </wsdl:portType>
 
@@ -36,6 +41,12 @@
       <wsdl:output>
         <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MyEmptyOperation">
+      <soap:operation soapAction="MyEmptyOperation"/>
+      <wsdl:input>
+        <soap:body use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
     </wsdl:operation>
   </wsdl:binding>
 
