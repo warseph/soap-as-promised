@@ -73,4 +73,14 @@ describe('Promisified client', function() {
       return expect(rawResponse).to.eventually.eq(EMPTY_RESPONSE);
     });
   });
+
+  it('should fail on method call when setEndpoint has a bad url', () => {
+      const promise = soap.createClient(WSDL)
+          .then(client => {
+              client.setEndpoint("http://localhost:" + (PORT-1));
+              return client.MyEmptyOperation();
+          });
+      return expect(promise).to.be.rejected;
+    });
+
 });

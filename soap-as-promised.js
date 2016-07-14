@@ -6,7 +6,7 @@ function cb2promise(fn, bind, position) {
   if (fn._promisified === true) {
     return fn;
   }
-  const promisifiedFn =  function () {
+  const promisifiedFn = function () {
     const args = [].slice.call(arguments, 0);
     return new Promise((resolve, reject) => {
       function nodeCallback(err, result, raw) {
@@ -58,6 +58,16 @@ function promisify(client) {
       });
     });
   });
+  if (!client._promisifiedSetEndpoint) {
+    client._promisifiedSetEndpoint = true;
+    const originalSetEndpoint = client.setEndpoint;
+    client.setEndpoint = function () {
+      const result = originalSetEndpoint.apply(client, arguments);
+      client._promisified = false;
+      promisify(client);
+      return result;
+    }
+  }
   return client;
 }
 const originalCreateClient = soap.createClient;
