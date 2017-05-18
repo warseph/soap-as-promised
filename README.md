@@ -18,7 +18,8 @@ soap.createClient('http://example.org/wsdl')
 
 ## Important!
 
-There are two things that behave different from the original soap client:
+There are a couple of things that behave different from the original soap client:
 
 * Null responses return an object with like this `{return: null, _rawResponse: "<SOAP RETURNED BY THE SERVICE>"}`
+* String responses return an object like this: `{return: 'String response', _rawResponse: "<SOAP RETURNED BY THE SERVICE>"}`
 * When specifying endpoint as an extra parameter you need to pass the options parameter (at least `null` or `{}`)
