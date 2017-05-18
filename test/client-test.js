@@ -13,6 +13,8 @@ const RESPONSE_XML = __dirname + '/files/response.xml';
 const RESPONSE = fs.readFileSync(RESPONSE_XML).toString().trim();
 const EMPTY_RESPONSE_XML = __dirname + '/files/empty-response.xml';
 const EMPTY_RESPONSE = fs.readFileSync(EMPTY_RESPONSE_XML).toString().trim();
+const STRING_RESPONSE_XML = __dirname + '/files/string-response.xml';
+const STRING_RESPONSE = fs.readFileSync(STRING_RESPONSE_XML).toString().trim();
 const HOST = 'localhost';
 const PORT = 65534;
 const BASE_URL = `http://${HOST}:${PORT}`;
@@ -71,6 +73,27 @@ describe('Promisified client', function() {
       .then(r => r._rawResponse.trim());
 
       return expect(rawResponse).to.eventually.eq(EMPTY_RESPONSE);
+    });
+  });
+
+  describe('String response', function () {
+    before(function (done) {
+      server = http.createServer(function (req, res) {
+        res.statusCode = 200;
+        res.write(STRING_RESPONSE, 'utf8');
+        res.end();
+      });
+      server.listen(PORT, HOST, done);
+    });
+    after(function (done) {
+      server.close(done);
+    });
+    it('should wrap the string in an object if it is a string response', function () {
+      const rawResponse = soap.createClient(WSDL, {}, BASE_URL)
+      .then(c => c.MyOperation({}))
+      .then(r => r._rawResponse.trim());
+
+      return expect(rawResponse).to.eventually.eq(STRING_RESPONSE);
     });
   });
 

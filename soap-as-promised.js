@@ -16,6 +16,9 @@ function cb2promise(fn, bind, position) {
           if (!result) {
             result = {return: null};
           }
+          if (typeof result !== 'object') {
+            result = { return: result };
+          }
           result._rawResponse = raw;
           resolve(result);
         }
