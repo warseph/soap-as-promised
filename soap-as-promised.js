@@ -36,7 +36,8 @@ function cb2promise(fn, bind, position) {
 }
 
 function objForEach(obj, fn) {
-  for (let prop in obj) {
+  for (const prop in obj) {
+    // eslint-disable-next-line no-prototype-builtins
     if (obj.hasOwnProperty(prop)) {
       fn(prop, obj[prop]);
     }
@@ -69,14 +70,14 @@ function promisify(client) {
       client._promisified = false;
       promisify(client);
       return result;
-    }
+    };
   }
   return client;
 }
 const originalCreateClient = soap.createClient;
 
 module.exports = Object.assign(soap, {
-  createClient: function () {
+  createClient() {
     const args = [].slice.call(arguments, 0);
     const createClient = cb2promise(originalCreateClient, soap, 2);
     return createClient.apply(null, args).then((client) => promisify(client));

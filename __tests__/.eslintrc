@@ -1,0 +1,21 @@
+{
+  "extends": "../.eslintrc",
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "globals": {
+    "expect": true,
+    "sinon": true,
+    "HttpRecording": true,
+    "fakeTime": true,
+    "testObserver": true,
+    "fail": true,
+    "clearDB": true,
+    "warmupSoap": true
+  },
+  "rules": {
+    "no-unused-expressions": 0,
+    "prefer-arrow-callback": 0
+  }
+}
