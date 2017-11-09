@@ -2,11 +2,7 @@
 
 const http = require('http');
 const fs = require('fs');
-const chai = require('chai');
-const chaiAsPromised = require("chai-as-promised");
-const soap = require('..');
-const expect = chai.expect;
-chai.use(chaiAsPromised);
+const soap = require('../soap-as-promised');
 
 const WSDL = __dirname + '/files/test.wsdl';
 const RESPONSE_XML = __dirname + '/files/response.xml';
@@ -19,81 +15,86 @@ const HOST = 'localhost';
 const PORT = 65534;
 const BASE_URL = `http://${HOST}:${PORT}`;
 
-describe('Promisified client', function() {
+describe('Promisified client', () => {
   let server;
-  describe('With response', function () {
-    before(function (done) {
-      server = http.createServer(function (req, res) {
+  describe('With response', () => {
+    beforeEach(done => {
+      server = http.createServer((req, res) => {
         res.statusCode = 200;
         res.write(RESPONSE, 'utf8');
         res.end();
       });
       server.listen(PORT, HOST, done);
     });
-    after(function (done) {
+
+    afterEach(done => {
       server.close(done);
     });
 
-    it('should return a promised client', function () {
+    it('should return a promised client', () => {
       const client = soap.createClient(WSDL);
-      return expect(client).to.eventually.have.property('MyOperation');
+      return expect(client).resolves.toHaveProperty('MyOperation');
     });
 
-    it('should return the promised result', function () {
+    it('should return the promised result', () => {
       const response = soap.createClient(WSDL, {}, BASE_URL)
       .then(c => c.MyOperation({}))
       .then(r => r.Response);
-      return expect(response).to.eventually.eq('Test response');
+      return expect(response).resolves.toEqual('Test response');
     });
 
-    it('should return the raw result', function () {
+    it('should return the raw result', () => {
       const rawResponse = soap.createClient(WSDL, {}, BASE_URL)
       .then(c => c.MyOperation({}))
       .then(r => r._rawResponse.trim());
 
-      return expect(rawResponse).to.eventually.eq(RESPONSE);
+      return expect(rawResponse).resolves.toEqual(RESPONSE);
     });
   });
 
-  describe('Without response', function () {
-    before(function (done) {
-      server = http.createServer(function (req, res) {
+  describe('Without response', () => {
+    beforeEach(done => {
+      server = http.createServer((req, res) => {
         res.statusCode = 200;
         res.write(EMPTY_RESPONSE, 'utf8');
         res.end();
       });
       server.listen(PORT, HOST, done);
     });
-    after(function (done) {
+
+    afterEach(done => {
       server.close(done);
     });
-    it('should return the raw result even if it is an empty response', function () {
+
+    it('should return the raw result even if it is an empty response', () => {
       const rawResponse = soap.createClient(WSDL, {empty: 'true'}, BASE_URL)
       .then(c => c.MyEmptyOperation({}))
       .then(r => r._rawResponse.trim());
 
-      return expect(rawResponse).to.eventually.eq(EMPTY_RESPONSE);
+      return expect(rawResponse).resolves.toEqual(EMPTY_RESPONSE);
     });
   });
 
-  describe('String response', function () {
-    before(function (done) {
-      server = http.createServer(function (req, res) {
+  describe('String response', () => {
+    beforeEach(done => {
+      server = http.createServer((req, res) => {
         res.statusCode = 200;
         res.write(STRING_RESPONSE, 'utf8');
         res.end();
       });
       server.listen(PORT, HOST, done);
     });
-    after(function (done) {
+
+    afterEach(done => {
       server.close(done);
     });
-    it('should wrap the string in an object if it is a string response', function () {
+
+    it('should wrap the string in an object if it is a string response', () => {
       const rawResponse = soap.createClient(WSDL, {}, BASE_URL)
       .then(c => c.MyOperation({}))
       .then(r => r._rawResponse.trim());
 
-      return expect(rawResponse).to.eventually.eq(STRING_RESPONSE);
+      return expect(rawResponse).resolves.toEqual(STRING_RESPONSE);
     });
   });
 
@@ -103,7 +104,7 @@ describe('Promisified client', function() {
               client.setEndpoint("http://localhost:" + (PORT-1));
               return client.MyEmptyOperation();
           });
-      return expect(promise).to.be.rejected;
+      return expect(promise).rejects.toBeDefined();
     });
 
 });
