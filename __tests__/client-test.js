@@ -50,6 +50,13 @@ describe('Promisified client', () => {
 
       return expect(rawResponse).resolves.toEqual(RESPONSE);
     });
+
+    it('should postprocess the result', () => {
+      const mock = jest.fn();
+      return soap.createClient(WSDL, {}, BASE_URL)
+        .then(c => c.MyOperation({}, { postProcess: mock }))
+        .then(() => expect(mock).toHaveBeenCalled());
+    });
   });
 
   describe('Without response', () => {
