@@ -37,18 +37,23 @@ describe('Promisified client', function() {
     return expect(client).to.eventually.have.property('MyOperation');
   });
 
-  it('should return the promised result', function () {
-    const response = soap.createClient(WSDL, {}, BASE_URL)
-      .then(c => c.MyOperation({}))
-      .then(r => r.Response);
-    return expect(response).to.eventually.eq('Test response');
+  it('should return the promised result', async () => {
+    const client = await soap.createClient(WSDL, {}, BASE_URL);
+    const result = await client.MyOperation({});
+    expect(result.Response).to.eq('Test response');
   });
 
-  it('should return the raw result', function () {
-    const rawResponse = soap.createClient(WSDL, {}, BASE_URL)
-      .then(c => c.MyOperation({}))
-      .then(r => r._rawResponse.trim());
+  it('should return the promised result after an endpoint change', async () => {
+    const client = await soap.createClient(WSDL, {}, BASE_URL);
+    client.setEndpoint(BASE_URL);
+    const result = await client.MyOperation({});
+    expect(result.Response).to.eq('Test response');
+  });
 
-    return expect(rawResponse).to.eventually.eq(RESPONSE);
+  it('should return the raw result', async () => {
+    const client = await soap.createClient(WSDL, {}, BASE_URL);
+    const result = await client.MyOperation({});
+    const rawResponse = result._rawResponse.trim();
+    expect(rawResponse).to.eq(RESPONSE);
   });
 });

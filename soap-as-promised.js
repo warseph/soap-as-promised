@@ -6,7 +6,7 @@ function cb2promise(fn, bind, position) {
   if (fn._promisified === true) {
     return fn;
   }
-  const promisifiedFn =  function () {
+  const promisifiedFn = function () {
     const args = [].slice.call(arguments, 0);
     return new Promise((resolve, reject) => {
       function nodeCallback(err, result, raw) {
@@ -37,12 +37,7 @@ function objForEach(obj, fn) {
   }
 }
 
-function promisify(client) {
-  if (client._promisified === true) {
-    return client;
-  }
-
-  client._promisified = true;
+function changeMethods(client) {
   const services = client.describe();
 
   objForEach(services, (service, ports) => {
@@ -55,6 +50,20 @@ function promisify(client) {
       });
     });
   });
+}
+
+function promisify(client) {
+  if (client._promisified === true) {
+    return client;
+  }
+
+  client._promisified = true;
+  changeMethods(client);
+  const originalSetEndpoint = client.setEndpoint.bind(client);
+  client.setEndpoint = (endpoint) => {
+    originalSetEndpoint(endpoint);
+    changeMethods(client);
+  }
   return client;
 }
 const originalCreateClient = soap.createClient;
