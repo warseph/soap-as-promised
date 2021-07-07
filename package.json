@@ -5,7 +5,7 @@
   "main": "soap-as-promised.js",
   "scripts": {
     "test": "jest",
-    "lint": "eslint **/*.js"
+    "lint": "eslint __tests__/client-test.js soap-as-promised.js"
   },
   "repository": {
     "type": "git",
@@ -25,9 +25,13 @@
     "soap": "^0.39.0"
   },
   "devDependencies": {
-    "eslint": "^5.14.1",
-    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.16.0",
-    "jest": "^24.1.0"
+    "jest": "^27.0.6"
+  },
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node"
   }
 }
