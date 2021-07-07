@@ -1,0 +1,4 @@
+.circleci/*
+__tests__/*
+.eslintrc
+yarn.lock
