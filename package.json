@@ -22,12 +22,12 @@
   },
   "homepage": "https://github.com/warseph/soap-as-promised",
   "dependencies": {
-    "soap": "^0.39.0"
+    "soap": "^0.42.0"
   },
   "devDependencies": {
-    "eslint": "^7.30.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-import": "^2.24.2",
     "jest": "^27.0.6"
   },
   "jest": {

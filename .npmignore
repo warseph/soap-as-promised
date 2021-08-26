@@ -1,4 +1,5 @@
 .circleci/*
+.github/*
 __tests__/*
 .eslintrc
 yarn.lock

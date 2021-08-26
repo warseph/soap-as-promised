@@ -1,10 +1,12 @@
-# soap-as-promised [![Circle CI](https://circleci.com/gh/warseph/soap-as-promised.svg?style=svg)](https://circleci.com/gh/warseph/soap-as-promised)
+# soap-as-promised [![Tests](https://github.com/20minutes/soap-as-promised/actions/workflows/tests.yml/badge.svg)](https://github.com/20minutes/soap-as-promised/actions/workflows/tests.yml)
 
 Convert all [node-soap](https://github.com/vpulim/node-soap) methods to promises. Inspired by soap-q, but it doesn't add
 any suffix to methods, the client has the same interface as exposed by the original soap module.
 
 ## Installation
-`npm install soap-as-promised`
+```
+npm install soap-as-promised
+```
 
 ## Usage
 ```js
