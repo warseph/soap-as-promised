@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/warseph/soap-as-promised",
   "dependencies": {
-    "soap": "^0.26.0"
+    "soap": "^0.43.0"
   },
   "devDependencies": {
     "eslint": "^5.14.1",
