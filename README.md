@@ -1,3 +1,10 @@
+# ⚠️ This repo is archived and no longer mantained ⚠️
+
+This library was created when existing libraries, like node-soap, were outdated and lacked support for promises. However, times have changed, and first-class promise support has been introduced.
+
+Due to the advancements and lack of updates to this library, it is no longer recommended for use. For the best results, please use the *Async methods in the original library.
+
+
 # soap-as-promised [![Circle CI](https://circleci.com/gh/warseph/soap-as-promised.svg?style=svg)](https://circleci.com/gh/warseph/soap-as-promised)
 
 Convert all [node-soap](https://github.com/vpulim/node-soap) methods to promises. Inspired by soap-q, but it doesn't add
